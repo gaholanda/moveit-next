@@ -2,4 +2,4 @@
 
 Projeto do Next Level Week #4 baseado em Next.js
 
-- 46:35
+- Começar Aula 3!
