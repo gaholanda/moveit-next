@@ -1,5 +1,13 @@
 # Moveit
 
-Projeto do Next Level Week #4 baseado em Next.js
+Projeto realizado durante o Next Level Week #4 da Rocketseat.<br>
+Aplicação criada com React, Next.js e Typescript.
 
-- Aula 5 - 38:02
+### Requisitos
+
+NodeJS instalado na máquina.
+
+### Rodar o projeto
+
+- `npm install` : para instalar todos os pacotes;
+- `npm run dev` : para iniciar o amibiente de desenvolvimento.
