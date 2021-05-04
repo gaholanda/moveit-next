@@ -20,13 +20,15 @@ interface ChallengesContextData {
   levelUp: () => void,
   startNewChallenge: () => void,
   resetChallenge: () => void,
-  completeChallenge: () => void
+  completeChallenge: () => void,
+  closeLevelUpModal: () => void
 }
 
 
 import React, { createContext, useState, useEffect, ReactNode } from 'react';
 import Cookies from 'js-cookie';
 import challenges from '../../challenges.json';
+import { LevelUpModal } from '../components/LevelUpModal';
 
 export const ChallengesContext = createContext({} as ChallengesContextData);
 
@@ -35,10 +37,9 @@ export function ChallengesProvider({ children, ...rest } : ChallengesProviderPro
   const [userXp, setUserXp] = useState(rest.userXp ?? 0);
   const [challengesCompleted, setChallengesCompleted] = useState(rest.challengesCompleted ?? 0);
   const [activeChallenge, setActiveChallenge] = useState(null);
+  const [isOpenLevelUpModal, setIsOpenLevelUpModal] = useState(false);
 
   const xpToNextLevel = Math.pow((level + 1) * 4, 2);
-
-  const levelUp = () => setLevel(level + 1);
 
   useEffect(() => {
     Notification.requestPermission();
@@ -49,6 +50,15 @@ export function ChallengesProvider({ children, ...rest } : ChallengesProviderPro
     Cookies.set('userXp', String(userXp));
     Cookies.set('challengesCompleted', String(challengesCompleted));
   }, [level, userXp, challengesCompleted])
+
+  function levelUp() {
+    setLevel(level + 1);
+    setIsOpenLevelUpModal(true);
+  };
+
+  function closeLevelUpModal() {
+    setIsOpenLevelUpModal(false);
+  }
 
   function startNewChallenge() {
     const randomChallengeIndex = Math.floor(Math.random() * challenges.length);
@@ -95,9 +105,11 @@ export function ChallengesProvider({ children, ...rest } : ChallengesProviderPro
       levelUp,
       startNewChallenge,
       resetChallenge,
-      completeChallenge
+      completeChallenge,
+      closeLevelUpModal
     }}>
       { children }
+      { isOpenLevelUpModal && <LevelUpModal level={level} closeLevelUpModal={closeLevelUpModal} />}
     </ChallengesContext.Provider>
   );
 }
